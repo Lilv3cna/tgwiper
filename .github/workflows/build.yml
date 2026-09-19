@@ -2,6 +2,9 @@ name: Build Android APK
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -12,14 +15,12 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build APK
-        uses: ArtemSBulgakov/buildozer-action@v1
-        id: buildozer
+        uses: ArtemGrigor/buildozer-action@v1
         with:
           command: buildozer android debug
-          buildozer_version: stable
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: TGWiper-APK
-          path: ${{ steps.buildozer.outputs.filename }}
+          path: bin/*.apk
